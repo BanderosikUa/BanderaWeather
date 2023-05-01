@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".presentation.first.FirstFragment">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingTop="30dp"
+        app:layout_constraintStart_toStartOf="@id/guideline"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/today_degree"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="18°"
+                android:textColor="@color/white"
+                android:textSize="42sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="@id/guideline"
+                app:layout_constraintTop_toTopOf="parent">
+
+            </TextView>
+
+            <TextView
+                android:id="@+id/today_description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Mostly cloud"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="@id/guideline"
+                app:layout_constraintTop_toTopOf="parent">
+
+            </TextView>
+
+            <TextView
+                android:id="@+id/today_feels"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Fells like 17°"
+                android:textSize="12sp"
+                android:textColor="@color/white"
+                app:layout_constraintStart_toStartOf="@id/guideline"
+                app:layout_constraintTop_toTopOf="parent">
+
+            </TextView>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:descendantFocusability="beforeDescendants"
+            android:focusableInTouchMode="true"
+            android:paddingLeft="120dp">
+
+            <TextView
+                android:id="@+id/city_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dip"
+                android:textColor="@color/white"
+                android:layout_marginBottom="5dp"
+                android:layout_marginLeft="7dp"
+                android:textAlignment="textEnd"
+                android:textStyle="bold"
+                android:text="City:" />
+
+            <!-- Spinner Element -->
+            <Spinner
+                android:id="@+id/spinner"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:entries="@array/cities"
+                android:spinnerMode="dropdown"
+                android:enabled="true"
+                android:minHeight="40dp"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                app:layout_constraintStart_toEndOf="@id/city_label"
+                app:layout_constraintTop_toTopOf="@id/city_label"
+                />
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:paddingTop="130dp"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:itemCount="5"
+        tools:layout_editor_absoluteX="0dp"
+        tools:listitem="@layout/item_short_weather" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="61dp" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
