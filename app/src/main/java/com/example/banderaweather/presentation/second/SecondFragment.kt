@@ -59,16 +59,15 @@ class SecondFragment : Fragment() {
     }
 
     private fun getShortDayOfWeek(dateString: String): String {
-        val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
-        val date = dateFormat.parse(dateString) ?: return ""
-        val dayOfWeekFormat = SimpleDateFormat("EEE|dd", Locale.getDefault())
-        return dayOfWeekFormat.format(date)
+        val parser = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+        val date = parser.parse(dateString) ?: return ""
+        val dayOfWeekFormatter = SimpleDateFormat("EEE|dd", Locale.getDefault())
+        return dayOfWeekFormatter.format(date)
     }
 
     private fun getTimeFromDateTime(dateString: String): String{
-        val datetimeString = "2023-05-02 14:30:00"
-        val parser = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
-        val date = parser.parse(datetimeString)
+        val parser = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssXXX", Locale.getDefault())
+        val date = parser.parse(dateString) ?: return ""
         val timeFormatter = SimpleDateFormat("HH:mm", Locale.getDefault())
         return timeFormatter.format(date)
     }

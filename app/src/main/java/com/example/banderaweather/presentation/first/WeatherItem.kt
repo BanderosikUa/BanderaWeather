@@ -37,8 +37,8 @@ class WeatherItem(val weather: DailyForecastApiModel) : BindableItem<ItemShortWe
     }
 
     private fun getDayOfWeek(dateString: String): String {
-        val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
-        val date = dateFormat.parse(dateString) ?: return ""
+        val parser = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+        val date = parser.parse(dateString) ?: return ""
         val dayOfWeekFormat = SimpleDateFormat("EEEE", Locale.getDefault())
         return dayOfWeekFormat.format(date)
     }
