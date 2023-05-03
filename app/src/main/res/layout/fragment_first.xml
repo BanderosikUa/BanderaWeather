@@ -20,9 +20,9 @@
 
             <TextView
                 android:id="@+id/today_degree"
-                android:layout_width="wrap_content"
+                android:layout_width="150dp"
                 android:layout_height="wrap_content"
-                android:text="18°"
+                android:text="18.4°"
                 android:textColor="@color/white"
                 android:textSize="42sp"
                 android:textStyle="bold"
@@ -63,7 +63,7 @@
             android:orientation="vertical"
             android:descendantFocusability="beforeDescendants"
             android:focusableInTouchMode="true"
-            android:paddingLeft="120dp">
+            android:paddingLeft="50dp">
 
             <TextView
                 android:id="@+id/city_label"

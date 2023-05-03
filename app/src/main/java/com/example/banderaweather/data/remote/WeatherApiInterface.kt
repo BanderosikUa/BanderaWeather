@@ -1,8 +1,9 @@
 package com.example.banderaweather.data.remote
 
-import com.example.banderaweather.data.remote.model.WeatherApiModel
+import com.example.banderaweather.data.remote.model.TodayListApiModel
+import com.example.banderaweather.data.remote.model.TodayWeatherApiModel
+import com.example.banderaweather.data.remote.model.WeatherFiveDaysApiModel
 import com.example.banderaweather.domain.Constants
-import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
@@ -15,5 +16,12 @@ interface WeatherApiInterface {
         @Query("apikey") apikey: String = Constants.API_KEY,
         @Query("details") details: Boolean = true,
         @Query("metric") metric: Boolean = true
-    ): WeatherApiModel
+    ): WeatherFiveDaysApiModel
+
+    @GET("currentconditions/v1/{cityKey}")
+    suspend fun getTodayWeather(
+        @Path("cityKey") cityKey: String?,
+        @Query("apikey") apikey: String = Constants.API_KEY,
+        @Query("details") details: Boolean = true,
+    ): List<TodayListApiModel>
 }

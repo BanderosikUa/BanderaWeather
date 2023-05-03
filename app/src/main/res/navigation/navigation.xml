@@ -12,11 +12,58 @@
         tools:layout="@layout/fragment_first" >
         <action
             android:id="@+id/action_firstFragment_to_secondFragment"
-            app:destination="@id/secondFragment" />
+            app:destination="@id/secondFragment" >
+
+        </action>
+
     </fragment>
     <fragment
         android:id="@+id/secondFragment"
-        android:name="com.example.banderaweather.SecondFragment"
+        android:name="com.example.banderaweather.presentation.second.SecondFragment"
         android:label="fragment_second"
-        tools:layout="@layout/fragment_second" />
+        tools:layout="@layout/fragment_second">
+<!--            <argument-->
+<!--                android:name="forecast"-->
+<!--                app:argType="com.example.banderaweather.data.remote.models.DailyForecastApiModel" />-->
+        <argument
+            android:name="dayName"
+            app:argType="string"
+            />
+        <argument
+            android:name="dayDegree"
+            app:argType="string"
+            />
+        <argument
+            android:name="dayIcon"
+            app:argType="integer"
+            />
+        <argument
+            android:name="rainProbability"
+            app:argType="integer"
+            />
+        <argument
+            android:name="windSpeed"
+            app:argType="string"
+            />
+        <argument
+            android:name="longPhrase"
+            app:argType="string"
+            />
+        <argument
+            android:name="humidity"
+            app:argType="float"
+            />
+        <argument
+            android:name="vuIndex"
+            app:argType="integer"
+            />
+        <argument
+            android:name="sunrise"
+            app:argType="string"
+            />
+        <argument
+            android:name="sunset"
+            app:argType="string"
+            />
+    </fragment>
 </navigation>

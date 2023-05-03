@@ -8,33 +8,25 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.banderaweather.R
-import com.example.banderaweather.data.remote.ApiFactory
-import com.example.banderaweather.data.remote.WeatherApiInterface
 import com.example.banderaweather.data.remote.model.CityEnum
-import com.example.banderaweather.data.remote.model.DailyForecastApiModel
-import com.example.banderaweather.data.remote.model.WeatherApiModel
+import com.example.banderaweather.data.remote.model.TodayListApiModel
 import com.example.banderaweather.databinding.FragmentFirstBinding
-import com.example.banderaweather.presentation.first.WeatherViewModel
 import com.example.newnews.presentation.models.WeatherItem
 import com.xwray.groupie.GroupieAdapter
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class FirstFragment : Fragment(R.layout.fragment_first) {
     private lateinit var binding: FragmentFirstBinding
     private var adapter = GroupieAdapter()
-    private lateinit var itemList: List<DailyForecastApiModel>
+    private lateinit var todayWeather: TodayListApiModel
 
+//    val vm: SavedStateViewModel by viewModels<WeatherViewModel>()
     private val viewModel by viewModels<WeatherViewModel>()
 
     override fun onCreateView(
@@ -53,8 +45,7 @@ class FirstFragment : Fragment(R.layout.fragment_first) {
         setupRecyclerView()
         Log.d("asd", "asdasd")
 
-//        val cities = enumValues<CityEnum>().map { it.name }
-        val cities = arrayOf("Kharkiv", "Plus", "dvod")
+        val cities = enumValues<CityEnum>().map { it.name }
         val spinnerAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, cities)
         spinnerAdapter.setDropDownViewResource(androidx.appcompat.R.layout.support_simple_spinner_dropdown_item)
         binding.spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
@@ -69,25 +60,38 @@ class FirstFragment : Fragment(R.layout.fragment_first) {
         }
         binding.spinner.adapter = spinnerAdapter
 
-        viewModel.getFiveDailyWeather(CityEnum.KYIV.cityKey)
-
-        viewModel.weatherLiveData.observe(viewLifecycleOwner, Observer { it ->
+        viewModel.weatherFiveLiveData.observe(viewLifecycleOwner, Observer { it ->
             val itemList = it.DailyForecasts.map{ WeatherItem(it) }
             adapter.updateAsync(itemList)
         })
 
-        val todayWeather = itemList[0]
-        binding.todayDegree.text =
+        viewModel.weatherTodayLiveData.observe(viewLifecycleOwner, Observer { it ->
+            todayWeather = it[0]
+            binding.todayDegree.text = todayWeather.Temperature.Metric.Value.toString() + "°" + todayWeather.Temperature.Metric.Unit
+            binding.todayDescription.text = todayWeather.WeatherText
+            binding.todayFeels.text = "Feels like " + todayWeather.RealFeelTemperature.Metric.Value.toString() + "°" + todayWeather.RealFeelTemperature.Metric.Unit
+        })
 
-//
-//        viewModel.getFiveDailyWeather(CityEnum.KYIV.cityKey)
+        viewModel.getFiveDailyWeather(CityEnum.KYIV.cityKey)
+        viewModel.getTodayWeather(CityEnum.KYIV.cityKey)
+
     }
 
     private fun setupRecyclerView(){
         binding.recyclerView.adapter = adapter
         binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
         adapter.setOnItemClickListener { item, view ->
-            findNavController().navigate(R.id.action_firstFragment_to_secondFragment)
+            val item = item as WeatherItem
+            val dayDegree = item.weather.Temperature.Maximum.Value.toString() + "°" + item.weather.Temperature.Maximum.Unit
+            val windSpeed = item.weather.Day.Wind.Speed.Value.toString() + " " + item.weather.Day.Wind.Speed.Unit
+            val action = FirstFragmentDirections.actionFirstFragmentToSecondFragment(
+                dayName = item.weather.Date, dayDegree = dayDegree, dayIcon = item.weather.Day.Icon,
+                rainProbability = item.weather.Day.RainProbability, windSpeed = windSpeed,
+                longPhrase = item.weather.Day.LongPhrase, humidity = item.weather.Day.Evapotranspiration.Value,
+                vuIndex = item.weather.AirAndPollen.last().Value, sunrise = item.weather.Sun.Rise,
+                sunset = item.weather.Sun.Set
+            )
+            findNavController().navigate(action)
         }
     }
 

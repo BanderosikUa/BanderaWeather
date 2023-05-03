@@ -1,8 +1,7 @@
-package com.example.banderaweather.data.remote
+package com.example.banderaweather.domain
 
-import android.speech.RecognizerResultsIntent
-import com.example.banderaweather.data.remote.model.WeatherApiModel
-import com.example.banderaweather.domain.Constants
+import com.example.banderaweather.data.remote.WeatherApiInterface
+import com.example.banderaweather.data.remote.model.WeatherFiveDaysApiModel
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -11,12 +10,12 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.create
+import javax.inject.Named
 import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-object ApiFactory {
+object AppModule {
 
     @Provides
     fun baseUrl() = Constants.BASE_URL
@@ -39,4 +38,9 @@ object ApiFactory {
             .client(okHttpClient())
             .build()
             .create(WeatherApiInterface::class.java)
+
+
+    @Provides
+    @Named("cacheDurationInMillis")
+    fun provideCacheDurationInMillis(): Long = 60 * 60 * 1000
 }

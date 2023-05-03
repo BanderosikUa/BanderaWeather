@@ -1,19 +1,17 @@
 package com.example.newnews.presentation.models
 
-import android.annotation.SuppressLint
 import android.util.Log
 import android.view.View
 import com.bumptech.glide.Glide
 import com.example.banderaweather.R
 import com.example.banderaweather.data.remote.model.DailyForecastApiModel
 import com.example.banderaweather.data.remote.model.IconApiEnum
-import com.example.banderaweather.data.remote.model.WeatherApiModel
 import com.example.banderaweather.databinding.ItemShortWeatherBinding
 import com.xwray.groupie.viewbinding.BindableItem
 import java.text.SimpleDateFormat
 import java.util.Locale
 
-class WeatherItem(private val weather: DailyForecastApiModel) : BindableItem<ItemShortWeatherBinding>() {
+class WeatherItem(val weather: DailyForecastApiModel) : BindableItem<ItemShortWeatherBinding>() {
     override fun initializeViewBinding(view: View): ItemShortWeatherBinding {
         Log.d("it2", "asdaspdasd")
         return ItemShortWeatherBinding.bind(view)
@@ -24,14 +22,14 @@ class WeatherItem(private val weather: DailyForecastApiModel) : BindableItem<Ite
         Log.d("it2", viewBinding.toString())
         setImages(viewBinding)
 
-        viewBinding.dayTextView.text = getDayOfWeek(weather.Date.toString())
-        viewBinding.dayPrecipitation.text = weather.Day?.PrecipitationProbability.toString()
-        val maxTemperature = weather.Temperature?.Maximum
+        viewBinding.dayTextView.text = getDayOfWeek(weather.Date)
+        viewBinding.dayPrecipitation.text = weather.Day.PrecipitationProbability.toString()
+        val maxTemperature = weather.Temperature.Maximum
         viewBinding.temperatureMaximum.text =
-            maxTemperature?.Value.toString() + "°" + maxTemperature?.Unit.toString()
-        val minTemperature = weather.Temperature?.Minimum
+            maxTemperature.Value.toString() + "°" + maxTemperature.Unit
+        val minTemperature = weather.Temperature.Minimum
         viewBinding.temperatureMinimum.text =
-            minTemperature?.Value.toString() + "°" + minTemperature?.Unit.toString()
+            minTemperature.Value.toString() + "°" + minTemperature.Unit
     }
 
     override fun getLayout(): Int {

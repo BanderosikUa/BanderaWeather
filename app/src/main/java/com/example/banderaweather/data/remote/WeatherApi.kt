@@ -1,11 +1,5 @@
 package com.example.banderaweather.data.remote
 
-import com.example.banderaweather.data.remote.model.WeatherApiModel
-import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.withContext
-import retrofit2.http.GET
-import retrofit2.http.Path
-
 //class WeatherApi(
 //    private val ApiInterface: WeatherApiInterface,
 //    private val ioDispatcher: CoroutineDispatcher
